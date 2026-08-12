@@ -1,26 +1,18 @@
 class Solution {
     public int rob(int[] nums) {
-        int n = nums.length;
-
-        if(n == 1) return nums[0];
-
-        return Math.max(
-            robInRange(0, n - 1, nums),
-            robInRange(1, n, nums)
-        );
+        if (nums.length == 1) return nums[0];
+        return Math.max(getMax(nums, 0, nums.length - 2), getMax(nums, 1, nums.length - 1));        
     }
 
-    public int robInRange(int s, int e, int[] nums) {
-        int prev2 = 0;
-        int prev1 = 0;
+    private int getMax(int[] nums, int start, int end) {
+        int prevRob = 0, maxRob = 0;
 
-        for(int i = s; i < e; i++) {
-            int curr = Math.max(prev1, prev2 + nums[i]);
-
-            prev2 = prev1;
-            prev1 = curr;
+        for (int i = start; i <= end; i++) {
+            int temp = Math.max(maxRob, prevRob + nums[i]);
+            prevRob = maxRob;
+            maxRob = temp;
         }
 
-        return prev1;
-    }
+        return maxRob;
+    }    
 }
